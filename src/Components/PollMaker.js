@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import PollService from "../Service/PollService";
 
-class CreatePoll extends Component {
+class PollMaker extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: this.props.match.params.id,
             name: "",
             question: "",
             option1: "",
@@ -12,6 +13,20 @@ class CreatePoll extends Component {
             option3: "",
         };
         this.savePoll = this.savePoll.bind(this);
+    }
+
+    componentDidMount() {
+        PollService.getPollById(this.state.id)
+        .then((res) => {
+            let poll = res.data;
+            this.setState({
+                name: poll.name,
+                question: poll.question,
+                option1: poll.option1,
+                option2: poll.option2,
+                option3: poll.option3
+            });
+        });
     }
 
     savePoll = (e) => {
@@ -23,20 +38,28 @@ class CreatePoll extends Component {
             option2: this.state.option2,
             option3: this.state.option3,
         };
-
-        PollService.createPoll(poll)
-            .then((res) => {
-                this.props.history.push("/Results");
+        if(this.state.id === ) {
+            PollService.createPoll(poll)
+               .then((res) => {
+                   this.props.history.push("/");
+            });
+        } else {
+            PollService.updatePoll(poll, this.state.id)
+            .then( res => {
+                this.props.history.push('poll');
             })
             .catch((err) => console.log(err));
+        }
     };
+
+    
 
     onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
     render() {
         return(
             <div>
-                <h1>Cast your Votes</h1>
+                <h1>Make your Votes</h1>
                 <form>
                     <div className="form-group">
                         <label className="item-title">Name:</label>
@@ -46,14 +69,6 @@ class CreatePoll extends Component {
                             value={ this.state.value }
                             onChange={ this.onChange }/>
                     </div>
-                    {/* <div className="form-group">
-                        <label className="item-title">Time:</label>
-                        <input 
-                            type="text"
-                            name="time"
-                            value={ this.state.value }
-                            onChange={ this.onChange }/>
-                    </div> */}
                     <div className="form-group">
                         <label className="item-title">Question:</label>
                         <input 
@@ -87,10 +102,10 @@ class CreatePoll extends Component {
                             onChange={ this.onChange }/>
                     </div>
                     <button className="btn btn-success" onClick={ this.savePoll }>Create Poll</button>
-                </form>
+                     </form>
             </div>
         );
     }
 }
 
-export default CreatePoll;
+export default PollMaker;
