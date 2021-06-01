@@ -12,19 +12,19 @@ class PollService {
   }
 
   getPollById(pollId) {
-    return axios.get(POLL_URL + "/" + pollId);
+    return axios.get(POLL_URL + "/poll/" + pollId);
   }
 
-  updatePoll(pollMaker, pollId) {
-    return axios.put(POLL_URL + "/update/" + pollId, pollMaker);
+  updatePoll(pollId, poll) {
+    return axios.put(POLL_URL + "/polls/" + pollId, poll);
   }
 
-  deletePoll(pollId) {
-    return axios.delete(POLL_URL + "/delete/" + pollId);
+  deletePoll(id) {
+    return axios.delete(POLL_URL + "/poll/" + id);
   }
 
-  createVote(voteMaker) {
-    return axios.post(POLL_URL, voteMaker);
+  createVote(pollId, voted) {
+    return axios.post(POLL_URL + "/vote/" + pollId, voted);
   }
 }
 export default new PollService();
