@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Doughnut } from 'react-chartjs-2';
+
 import PollService from "../Service/PollService";
 
 class Poll extends Component {
@@ -42,6 +44,19 @@ class Poll extends Component {
   onOptionChange = (e) => this.setState({ voted: e.target.value });
 
   render() {
+    const data = {
+      labels: [
+        this.state.poll.option1,
+        this.state.poll.option2,
+        this.state.poll.option3,
+      ],
+      datasets: [{
+        label: "votes",
+        data: [this.state.poll.vote1, this.state.poll.vote2, this.state.poll.vote3],
+        hoverOffset: 4
+      }]
+    };
+
     return (
       <div>
         <h1>Cast your Vote</h1>
@@ -89,6 +104,10 @@ class Poll extends Component {
               id="flexRadioDefault1"
             />
             <div>{this.state.poll.option3}</div>
+          </div>
+          <div>
+            {/* inserting component doughnut from import to render */}
+          <Doughnut data={data} />
           </div>
           <button className="btn btn-success" onClick={this.savePoll}>
             Take Poll

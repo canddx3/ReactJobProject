@@ -14,7 +14,13 @@ class updatePoll extends Component {
     componentDidMount() {
       PollService.getPollById(this.state.id)
         .then((res) => {
-          this.setState({ poll: res.data });
+          this.setState({ poll: res.data, 
+            // setting previous data
+            name: res.data.name,
+            question: res.data.question,
+            option1: res.data.option1,
+            option2: res.data.option2,
+            option3: res.data.option3, });
         })
         .catch((err) => console.log(err));
     }
@@ -48,7 +54,7 @@ class updatePoll extends Component {
                         <input 
                             type="text"
                             name="name"
-                            value={ this.state.value }
+                            defaultValue={ this.state.poll.name }
                             onChange={ this.onChange }/>
                     </div>
                     <div className="form-group">
@@ -56,7 +62,7 @@ class updatePoll extends Component {
                         <input 
                             type="text"
                             name="question"
-                            value={ this.state.value }
+                            defaultValue={ this.state.poll.question }
                             onChange={ this.onChange }/>
                     </div>
                     <div className="form-group">
@@ -64,7 +70,7 @@ class updatePoll extends Component {
                         <input 
                             type="text"
                             name="option1"
-                            value={ this.state.value }
+                            defaultValue={ this.state.poll.option1 }
                             onChange={ this.onChange }/>
                     </div>
                     <div className="form-group">
@@ -72,7 +78,7 @@ class updatePoll extends Component {
                         <input 
                             type="text"
                             name="option2"
-                            value={ this.state.value }
+                            defaultValue={ this.state.poll.option2 }
                             onChange={ this.onChange }/>
                     </div>
                     <div className="form-group">
@@ -80,7 +86,7 @@ class updatePoll extends Component {
                         <input 
                             type="text"
                             name="option3"
-                            value={ this.state.value }
+                            defaultValue={ this.state.poll.option3 }
                             onChange={ this.onChange }/>
                     </div>
                     <button className="btn btn-success" onClick={ this.updatePoll }>Update Poll</button>

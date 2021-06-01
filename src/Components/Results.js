@@ -123,6 +123,7 @@ class Results extends Component {
                   </td>
                   <td>
                     <button className="btn btn-secondary">
+                      {/* react router for getting id */}
                       <a href={`/polls/${poll.id}`}>Update poll </a>
                     </button>
                     <button
